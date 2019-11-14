@@ -1,12 +1,14 @@
 const path = require('path')
 const webpack = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlPlugin = require('html-webpack-plugin')
 
 module.exports = {
-    entry: './src/index.js',
+    entry: {
+        app: ['./src/index.js']
+    },
     output: {
-        filename: 'app.bundle.js',
+        filename: '[name].bundle.js',
         chunkFilename: '[name].chunk.js'
     },
     resolve: {
@@ -40,7 +42,7 @@ module.exports = {
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new VueLoaderPlugin(),
-        new HtmlWebpackPlugin({
+        new HtmlPlugin({
             template: 'index.html',
             inject: true
         })
