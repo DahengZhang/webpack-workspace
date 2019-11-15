@@ -3,9 +3,11 @@ const webpack = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
 
 module.exports = {
-    entry: './src/index.js',
+    entry: {
+        app: ['./src/index.js']
+    },
     output: {
-        filename: 'app.js'
+        filename: '[name].bundle.js'
     },
     resolve: {
         extensions: ['.js', '.vue'],
@@ -15,6 +17,10 @@ module.exports = {
     },
     module: {
         rules: [{
+            test: /\.jsx?$/,
+            exclude: /node_modules/,
+            loader: 'babel-loader'
+        }, {
             test: /\.vue$/,
             exclude: /node_modules/,
             loader: 'vue-loader'
