@@ -55,7 +55,7 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin(),
         new VueLoaderPlugin(),
         new HtmlPlugin({
-            template: 'index.html',
+            template: 'ejs-loader!index.html',
             inject: true
         }),
         new CopyPlugin([{
