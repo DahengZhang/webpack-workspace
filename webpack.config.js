@@ -15,6 +15,10 @@ module.exports = {
         chunkFilename: '[name].chunk.js',
         publicPath: '/'
     },
+    externals: {
+        'vue': 'Vue',
+        'axios': 'axios'
+    },
     resolve: {
         extensions: ['.js', '.vue'],
         alias: {
