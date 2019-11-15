@@ -50,16 +50,17 @@ module.exports = {
         }),
         new CopyPlugin([{
             from: path.resolve(__dirname, 'static'),
-            to: 'static'
+            to: 'static',
+            ignore: ['*.js', '*.css']
         }, {
-            from: path.resolve(__dirname, 'static/css'),
-            to: 'static/css',
+            from: path.resolve(__dirname, 'static/**/*.css'),
+            to: '',
             transform (content) {
                 return new CleanCSS({}).minify(content).styles
             }
         }, {
-            from: path.resolve(__dirname, 'static/lib'),
-            to: 'static/lib',
+            from: path.resolve(__dirname, 'static/**/*.js'),
+            to: '',
             transform (content) {
                 return Uglify.minify(content.toString()).code
             }
