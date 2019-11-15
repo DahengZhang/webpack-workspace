@@ -2,13 +2,17 @@ const path = require('path')
 const webpack = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
 const HtmlPlugin = require('html-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
+const Uglify = require('uglify-es')
+const CleanCSS = require('clean-css')
 
 module.exports = {
     entry: {
         app: ['./src/index.js']
     },
     output: {
-        filename: '[name].bundle.js'
+        filename: '[name].bundle.js',
+        publicPath: '/'
     },
     resolve: {
         extensions: ['.js', '.vue'],
@@ -43,6 +47,22 @@ module.exports = {
         new HtmlPlugin({
             template: 'index.html',
             inject: true
-        })
+        }),
+        new CopyPlugin([{
+            from: path.resolve(__dirname, 'static'),
+            to: 'static'
+        }, {
+            from: path.resolve(__dirname, 'static/css'),
+            to: 'static/css',
+            transform (content) {
+                return new CleanCSS({}).minify(content).styles
+            }
+        }, {
+            from: path.resolve(__dirname, 'static/lib'),
+            to: 'static/lib',
+            transform (content) {
+                return Uglify.minify(content.toString()).code
+            }
+        }])
     ]
 }
