@@ -14,6 +14,10 @@ module.exports = {
         filename: '[name].bundle.js',
         publicPath: '/'
     },
+    externals: {
+        'vue': 'Vue',
+        'axios': 'axios'
+    },
     resolve: {
         extensions: ['.js', '.vue'],
         alias: {
