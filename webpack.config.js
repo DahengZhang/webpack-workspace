@@ -1,13 +1,24 @@
 const path = require('path')
 const webpack = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlPlugin = require('html-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
+const Uglify = require('uglify-es')
+const CleanCSS = require('clean-css')
 
 module.exports = {
-    entry: './src/index.js',
+    entry: {
+        app: ['./src/index.js']
+    },
     output: {
-        filename: 'app.bundle.js',
-        chunkFilename: '[name].chunk.js'
+        filename: '[name].bundle.js',
+        chunkFilename: '[name].chunk.js',
+        publicPath: '/'
+    },
+    externals: {
+        'vue': 'Vue',
+        'vue-router': 'VueRouter',
+        'axios': 'axios'
     },
     resolve: {
         extensions: ['.js', '.vue'],
@@ -40,9 +51,26 @@ module.exports = {
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new VueLoaderPlugin(),
-        new HtmlWebpackPlugin({
-            template: 'index.html',
+        new HtmlPlugin({
+            template: 'ejs-loader!index.html',
             inject: true
-        })
+        }),
+        new CopyPlugin([{
+            from: path.resolve(__dirname, 'static'),
+            to: 'static',
+            ignore: ['*.js', '*.css']
+        }, {
+            from: path.resolve(__dirname, 'static/**/*.css'),
+            to: '',
+            transform (content) {
+                return new CleanCSS({}).minify(content).styles
+            }
+        }, {
+            from: path.resolve(__dirname, 'static/**/*.js'),
+            to: '',
+            transform (content) {
+                return Uglify.minify(content.toString()).code
+            }
+        }])
     ]
 }
