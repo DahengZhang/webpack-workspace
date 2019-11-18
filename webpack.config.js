@@ -17,7 +17,9 @@ module.exports = {
     },
     externals: {
         'vue': 'Vue',
-        'axios': 'axios'
+        'vue-router': 'VueRouter',
+        'axios': 'axios',
+        'vuex': 'Vuex'
     },
     resolve: {
         extensions: ['.js', '.vue'],
