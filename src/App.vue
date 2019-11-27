@@ -6,6 +6,7 @@
         </ul>
         <shop-car></shop-car>
         <router-view></router-view>
+        <img :src="require('./header.png').default" alt="">
     </div>
 </template>
 
