@@ -1,6 +1,7 @@
 <template>
     <div class="app">
         This is App
+        <img :src="require('./header.png').default" alt="">
     </div>
 </template>
 
@@ -11,5 +12,7 @@ export default {
 </script>
 
 <style lang="scss">
-.app {}
+.app {
+    color: #cccccc;
+}
 </style>

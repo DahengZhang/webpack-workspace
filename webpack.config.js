@@ -1,18 +1,24 @@
 const path = require('path')
 const webpack = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const Uglify = require('uglify-es')
 const CleanCSS = require('clean-css')
 
+const publicPath = '/'
+const isDev = process.env.NODE_ENV === 'development'
+
 module.exports = {
+    devtool: isDev ? 'eval' : 'source-maps',
     entry: {
         app: ['./src/index.js']
     },
     output: {
+        path: path.resolve(__dirname, 'dist/'),
         filename: '[name].bundle.js',
-        publicPath: '/'
+        publicPath
     },
     externals: {
         'vue': 'Vue',
@@ -33,10 +39,21 @@ module.exports = {
             test: /\.(c|sa|sc)ss$/,
             exclude: /node_modules/,
             use: [
-                'vue-style-loader',
+                isDev ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
                 'css-loader',
                 'sass-loader'
             ]
+        }, {
+            test: /\.(png|jpe?g|gif)$/,
+            exclude: /node_modules/,
+            use: {
+            loader: 'url-loader',
+                options: {
+                    limit: 1000,
+                    name: '[name].[hash:6].[ext]',
+                    publicPath
+                }
+            }
         }]
     },
     devServer: {
@@ -48,6 +65,10 @@ module.exports = {
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new VueLoaderPlugin(),
+        new MiniCssExtractPlugin({
+            publicPath,
+            filename: '[name].bundle.css'
+        }),
         new HtmlPlugin({
             template: 'ejs-loader!index.html',
             inject: true
