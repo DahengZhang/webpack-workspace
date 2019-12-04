@@ -7,6 +7,7 @@
         <shop-car></shop-car>
         <router-view></router-view>
         <img :src="require('./header.png').default" alt="">
+        <button @click="getApiProxy">使用代理的 GET 请求</button>
     </div>
 </template>
 
@@ -71,6 +72,15 @@ export default {
                 setTimeout(() => {
                     reject('请求失败')
                 }, 1000)
+            })
+        },
+        getApiProxy () {
+            this.$http.get('/api/users/test', {
+                name: 'GET 请求'
+            }).then(res => {
+                console.log(res)
+            }).catch(err => {
+                console.error(err)
             })
         },
         ...mapActions(['AddToCar'])

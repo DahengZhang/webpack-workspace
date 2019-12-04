@@ -15,6 +15,11 @@ export default {
     computed: {
         ...mapGetters(['GetShopCar'])
     },
+    created () {
+        this.$eventBus.$on('test', (...arg) => {
+            console.log(arg[0], arg[1])
+        })
+    },
     methods: {
         ...mapMutations(['LESS_GOODS', 'MORE_GOODS'])
     }
