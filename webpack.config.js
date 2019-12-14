@@ -7,7 +7,7 @@ const CopyPlugin = require('copy-webpack-plugin')
 const Uglify = require('uglify-es')
 const CleanCSS = require('clean-css')
 
-const publicPath = '/'
+const publicPath = ''
 const isDev = process.env.NODE_ENV === 'development'
 
 module.exports = {
@@ -17,8 +17,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist/'),
-        filename: '[name].bundle.js',
-        chunkFilename: '[name].chunk.js',
+        filename: '[name]/index.bundle.js',
         publicPath
     },
     externals: {
@@ -57,7 +56,7 @@ module.exports = {
             loader: 'url-loader',
                 options: {
                     limit: 1000,
-                    name: '[name].[hash:6].[ext]',
+                    name: 'static/img/[name].[hash:6].[ext]',
                     publicPath
                 }
             }
@@ -84,11 +83,10 @@ module.exports = {
         new VueLoaderPlugin(),
         new MiniCssExtractPlugin({
             publicPath,
-            chunkFilename: '[name].chunk.css',
-            filename: '[name].bundle.css'
+            filename: '[name]/index.bundle.css'
         }),
         new HtmlPlugin({
-            template: 'ejs-loader!index.html',
+            template: 'ejs-loader!template.html',
             inject: true
         }),
         new CopyPlugin([{
