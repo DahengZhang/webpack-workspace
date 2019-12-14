@@ -11,9 +11,8 @@ module.exports = {
         app: ['./src/index.js']
     },
     output: {
-        filename: '[name].bundle.js',
-        chunkFilename: '[name].chunk.js',
-        publicPath: '/'
+        filename: '[name]/index.bundle.js',
+        publicPath: ''
     },
     externals: {
         'vue': 'Vue',
@@ -52,7 +51,7 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin(),
         new VueLoaderPlugin(),
         new HtmlPlugin({
-            template: 'ejs-loader!index.html',
+            template: 'ejs-loader!template.html',
             inject: true
         }),
         new CopyPlugin([{
