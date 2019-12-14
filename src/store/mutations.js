@@ -1,10 +1,8 @@
-import * as types from './mutation-types'
-
 /**
  * 内部调用 commit('mutationsName')
  */
 export default {
-    [types.ADD_TO_CAR] (state, target) {
+    ADD_TO_CAR (state, target) {
         const goodsIndex = state.shopList.findIndex(item => item.id === target.id)
         if (goodsIndex >= 0) {
             state.shopList[goodsIndex].total++

@@ -9,10 +9,10 @@ export default new Router({
     routes: [{
         path: '',
         name: 'home',
-        component: () => import(/* webpackChunkName: "home" */ 'src/pages/Home')
+        component: resolve => require.ensure([], () => resolve(require('./pages/Home.vue')), 'app/home')
     }, {
         path: '/about',
         name: 'about',
-        component: () => import(/* webpackChunkName: "about" */ 'src/pages/About')
+        component: resolve => require.ensure([], () => resolve(require('./pages/About.vue')), 'app/about')
     }]
 })
