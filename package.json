@@ -2,11 +2,12 @@
   "name": "webpack-workspace",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "electron.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --mode development --color --progress",
-    "build": "cross-env NODE_ENV=production webpack --mode production --color --progress"
+    "dev:web": "cross-env NODE_ENV=development webpack-dev-server --mode development --color --progress",
+    "build:web": "cross-env NODE_ENV=production webpack --mode production --color --progress",
+    "dev:client": "cross-env NODE_ENV=development electron ."
   },
   "keywords": [],
   "author": "",

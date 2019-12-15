@@ -11,9 +11,11 @@ const publicPath = ''
 const isDev = process.env.NODE_ENV === 'development'
 
 module.exports = {
-    devtool: isDev ? 'eval' : 'source-maps',
+    devtool: isDev ? 'source-maps' : 'eval',
     entry: {
-        app: ['./src/index.js']
+        login: ['./src/login/index.js'],
+        main: ['./src/main/index.js'],
+        other: ['./src/other/index.js']
     },
     output: {
         path: path.resolve(__dirname, 'dist/'),
@@ -52,13 +54,11 @@ module.exports = {
         }, {
             test: /\.(png|jpe?g|gif)$/,
             exclude: /node_modules/,
-            use: {
             loader: 'url-loader',
-                options: {
-                    limit: 1000,
-                    name: 'static/img/[name].[hash:6].[ext]',
-                    publicPath
-                }
+            options: {
+                limit: 1000,
+                name: 'static/img/[name].[hash:6].[ext]',
+                publicPath
             }
         }]
     },
@@ -67,7 +67,18 @@ module.exports = {
         port: 7000,
         hot: true,
         overlay: true,
-        historyApiFallback: true,
+        historyApiFallback: {
+            rewrites: [{
+                from: '^/other',
+                to: '/other.html'
+            }, {
+                from: '^/main',
+                to: '/main.html'
+            }, {
+                from: '^/',
+                to: '/login.html'
+            }]
+        },
         proxy: {
             '/api': {
                 target: 'http://127.0.0.1:3000',
@@ -87,7 +98,33 @@ module.exports = {
         }),
         new HtmlPlugin({
             template: 'ejs-loader!template.html',
-            inject: true
+            filename: 'main.html',
+            inject: true,
+            chunks: ['main'],
+            minify: {
+                removeComments: false,
+                collapseWhitespace: false
+            }
+        }),
+        new HtmlPlugin({
+            template: 'ejs-loader!template.html',
+            filename: 'other.html',
+            inject: true,
+            chunks: ['other'],
+            minify: {
+                removeComments: false,
+                collapseWhitespace: false
+            }
+        }),
+        new HtmlPlugin({
+            template: 'ejs-loader!template.html',
+            filename: 'login.html',
+            inject: true,
+            chunks: ['login'],
+            minify: {
+                removeComments: false,
+                collapseWhitespace: false
+            }
         }),
         new CopyPlugin([{
             from: path.resolve(__dirname, 'static'),

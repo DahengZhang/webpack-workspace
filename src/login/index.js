@@ -2,8 +2,8 @@ import Vue from 'vue'
 import VueAxios from 'vue-axios'
 import App from './App'
 import router from './router'
-import store from './store'
-import ajax from './ajax'
+import store from 'src/store'
+import ajax from 'src/utils/ajax'
 
 Vue.use(VueAxios, ajax)
 
